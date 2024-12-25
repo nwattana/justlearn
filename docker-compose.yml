@@ -1,0 +1,32 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"    # AMQP protocol port
+      - "15672:15672"  # Management UI port
+    environment:
+      - RABBITMQ_DEFAULT_USER=nwattana
+      - RABBITMQ_DEFAULT_PASS=1q2w3e4r
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_logs:/var/log/rabbitmq
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16
+    container_name: pg-rabit
+    ports:
+      - "5488:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgmq_data:/var/lib/postgresql/data
+
+
+volumes:
+  rabbitmq_data:
+  rabbitmq_logs:
+  pgmq_data:
